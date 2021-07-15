@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,62 +45,29 @@ namespace WpfDataMatching
             {
                 string addingStringId = TxtBoxAdding.Text;
                 TxtBoxAdding.Text = "";
-                string[] addingsId = addingStringId.Split(' '); //массив из введенных строек
-                int lenghtArr = 0;
-                List<string> listId = new List<string>(); //только правильные ИД
-
-                while (lenghtArr < addingsId.Length)
-                {
-                    int help1 = addingsId[lenghtArr].Length;
-                    if (addingsId[lenghtArr].Length <= lengthID) // проверяем длину + увеличиваем, добавляя 0
-                    {
-                        while (addingsId[lenghtArr].Length < lengthID)
-                        {
-                            addingsId[lenghtArr] = addingsId[lenghtArr].Insert(0, "0");
-                        }
-                        listId.Add(addingsId[lenghtArr]);
-                    }
-                    lenghtArr++;
-                }
+                List<string[]> listId = ListId(addingStringId); //только правильные ИД
                 //по итогу получили список listID с ИД наименований
-                List<string[]> vs = new List<string[]>();
-                for (int i = 0; i < listId.Count; i++)
-                {               
-                    int count = 1;
-                    for (int j = 0; j < i; j++)
-                    {
-                        count = listId[i] == listId[j] ? count + 1 : count;            
-                    }
-                    if (count == 1)
-                    {
-                        for (int j = i + 1; j < listId.Count; j++)
-                        {
-                            count = listId[i] == listId[j] ? count + 1 : count;
-                        }
-                        string[] helpStringArray = new string[] { listId[i], count.ToString() };
-                        vs.Add(helpStringArray);
-                    }
-                    else
-                    {
-                    
-                    }
-                }
-                //поиск и вывод
-                foreach (string stringId in listId)
-                {
+                CountID(ref listId);
+                //и количеством повторений
+                
 
+                //Добавление в таблицу
+                foreach (string[] stringId in listId)
+                {
+                    DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
+                    DataGridAdding.Items.Add(add);
                 }
+               
 
                 //TEST
-                string help = String.Join(",", listId);
-                MessageBox.Show(help);
+                
             }
 
         }
 
         private void TxtBoxAdding_TextChanged(object sender, TextChangedEventArgs e)
         {
-            filterTextBoxContent(TxtBoxAdding);
+            FilterTextBoxContent(TxtBoxAdding);
         }
 
 
@@ -109,40 +77,26 @@ namespace WpfDataMatching
             if (e.Key == Key.Enter)
             {
                 string shipmentStringId = TxtBoxShipment.Text;
-                string[] shipmentsId = shipmentStringId.Split(' ');
-                int lenghtArr = 0;
-                List<string> listId = new List<string>();
-                while (lenghtArr < shipmentsId.Length)
-                {
-                    if (shipmentsId[lenghtArr].Length <= lengthID)
-                    {
-                        while (shipmentsId[lenghtArr].Length < lengthID)
-                        {
-                            shipmentsId[lenghtArr] = shipmentsId[lenghtArr].Insert(0, "0");
-                        }
-                        listId.Add(shipmentsId[lenghtArr]);
-                    }
-                    lenghtArr++;
-                }
-                //поиск и вывод
-                foreach (string stringId in listId)
-                {
+                List<string[]> listId = ListId(shipmentStringId);
 
+                //поиск и вывод
+                foreach (string[] stringId in listId)
+                {
+                    DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
+                    DataGridAdding.Items.Add(add);
                 }
-                string help = String.Join(",", listId);
-                MessageBox.Show(help);
             }
         }
 
         private void TxtBoxShipment_TextChanged(object sender, TextChangedEventArgs e)
         {
-            filterTextBoxContent(TxtBoxShipment);
+            FilterTextBoxContent(TxtBoxShipment);
         }
 
 
         /*ДРУГОЕ*/
         //обработка вводимых символов
-        private bool filterTextBoxContent(TextBox txtBox)
+        private bool FilterTextBoxContent(TextBox txtBox)
         {
             string pattern = @"[^0-9^A-F^\s]";
             string text = txtBox.Text;
@@ -218,9 +172,72 @@ namespace WpfDataMatching
 
             return matched;
         }
-
+        // Подсчет одинаковых ИД
+        private void CountID(ref List<string[]> listId)
+        {
+            for (int i = 0; i < listId.Count; i++)
+            {
+                int count = 1;
+                for (int j = 0; j < i; j++)
+                {
+                    count = listId[i][0] == listId[j][0] ? count + 1 : count;
+                }
+                if (count == 1)
+                {
+                    for (int j = i + 1; j < listId.Count; j++)
+                    {
+                        count = listId[i][0] == listId[j][0] ? count + 1 : count;
+                    }
+                    //string[] helpStringArray = new string[] { listId[i], count.ToString() };
+                    //vs.Add(helpStringArray);
+                    listId[i][1] = count.ToString();
+                }
+                else
+                {
+                    listId.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+        //Собрать только нужные ид
+        private List<string[]> ListId(string stringId)
+        {
+            List<string[]> listId = new List<string[]>();
+            string[] enteredId = stringId.Split(' '); //массив из введенных строек
+            int lenghtArr = 0;
+            while (lenghtArr < enteredId.Length)
+            {
+                if (enteredId[lenghtArr].Length <= lengthID && enteredId[lenghtArr].Length != 0) // проверяем длину + увеличиваем, добавляя 0
+                {
+                    while (enteredId[lenghtArr].Length < lengthID)
+                    {
+                        enteredId[lenghtArr] = enteredId[lenghtArr].Insert(0, "0");
+                    }
+                    string[] helpStringArray = new string[] { enteredId[lenghtArr], " " };
+                    listId.Add(helpStringArray);
+                }
+                lenghtArr++;
+            }
+            return listId;
+        }
+        
+      
+        
         /*ДОБАВЛЕНИЕ АВТОМАТИЧЕСКОЕ*/
 
 
+    }
+
+
+    public class DataAdd
+    {
+        public string Column1
+        {
+            get; set;
+        }
+        public string Column2
+        {
+            get; set;
+        }
     }
 }
