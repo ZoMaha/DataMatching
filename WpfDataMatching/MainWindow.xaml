@@ -1,0 +1,51 @@
+﻿<Window x:Class="WpfDataMatching.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfDataMatching"
+        mc:Ignorable="d"
+        Title="Прием и отгрузка" UseLayoutRounding="False">
+    <Grid>
+        <UniformGrid Rows="1" Columns="2">
+            <Grid x:Name="GridAdding" KeyUp="GridAdding_KeyUp">
+                <Label x:Name="lblFieldAdding" Margin="+25,+10,+25,0" Content="Поле ввода данных для приема" 
+                       VerticalAlignment="Top"  HorizontalContentAlignment="Center" FontSize="16" FontFamily="Times New Roman"/>
+                <Label x:Name="lblDataAdding" Margin="+25,+70,+25,0" Content="ПРИЕМ"  
+                       VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="16" FontFamily="Times New Roman"/>
+                <TextBox x:Name="TxtBoxAdding" Margin="+25,+45,+25,0"
+                         VerticalAlignment="Top" HorizontalContentAlignment="Left" TextWrapping="Wrap"  
+                         TextChanged="TxtBoxAdding_TextChanged" FontSize="14" FontFamily="Times New Roman"/>
+                <DataGrid x:Name="DataGridAdding" Margin="+25,+100,+25,+50"
+                          HorizontalAlignment="Left" Grid.ColumnSpan="2" FontSize="14" FontFamily="Times New Roman">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Foreground="{x:Null}" Header="Наименование" Width="7*"/>
+                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Foreground="{x:Null}" Header="Количество" Width="3*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <Grid x:Name="GridShipment" KeyUp="GridShipment_KeyUp">
+                <Label x:Name="lblFieldShipment" Margin="+25,+10,+25,0" Content="Поле ввода данных для отгрузки" 
+                       VerticalAlignment="Top"  HorizontalContentAlignment="Center" FontSize="16" FontFamily="Times New Roman"/>
+                <Label x:Name="lblDataShipment" Margin="+25,+70,+25,0" Content="ОТГРУЗКА" 
+                       VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="16" FontFamily="Times New Roman"/>
+                <TextBox x:Name="TxtBoxShipment" Margin="+25,+45,+25,0"
+                         VerticalAlignment="Top" HorizontalContentAlignment="Left" TextWrapping="Wrap"  
+                         TextChanged="TxtBoxShipment_TextChanged" FontSize="14" FontFamily="Times New Roman"/>
+                <DataGrid x:Name="DataGridShipment" Margin="+25,+100,+25,+50"
+                          HorizontalAlignment="Left" Grid.ColumnSpan="2" FontSize="14" FontFamily="Times New Roman">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Foreground="{x:Null}" Header="Наименование" Width="7*"/>
+                        <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Foreground="{x:Null}" Header="Количество" Width="3*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </UniformGrid>
+
+        <Button x:Name="BtnClear" Margin="+25,0,0,+10" Width="132" Height="27" Content="Очистить" 
+                HorizontalAlignment="Left"  VerticalAlignment="Bottom" 
+                Click="BtnClear_Click" FontSize="16" FontFamily="Times New Roman"/>
+
+    </Grid>
+</Window>
