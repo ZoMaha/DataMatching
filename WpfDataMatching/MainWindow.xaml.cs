@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace WpfDataMatching
 {
@@ -32,37 +33,34 @@ namespace WpfDataMatching
 
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
+            DataGridAdding.Items.Clear();
+            DataGridShipment.Items.Clear();
 
         }
 
         /*ПРИЕМ*/
         private void GridAdding_KeyUp(object sender, KeyEventArgs e)
         {
-            //Считать строку -> разбить на подстроки черех ПРОБЕЛ
-            //Добавить изменение нижнего регистра на верхний (а -> А) DONE
-            //Проверка ид
             if (e.Key == Key.Enter)
             {
-                string addingStringId = TxtBoxAdding.Text;
-                TxtBoxAdding.Text = "";
-                List<string[]> listId = ListId(addingStringId); //только правильные ИД
-                //по итогу получили список listID с ИД наименований
-                CountID(ref listId);
-                //и количеством повторений
-                
+                //Список из наименований и колва
+                List<string[]> listId = CreateListCountTxtBox(ref DataGridAdding, ref TxtBoxAdding);
+                /*
+                 * Здесь надо вытащить данные другой таблицы и сравнить с этой
+                 */
+                CompareTwoData(ref DataGridShipment, ref listId);
 
-                //Добавление в таблицу
+                //по итогу получили список listID с ИД наименований и колвом
+                PullOutTitles(ref listId);
+                DataGridAdding.Items.Clear();
                 foreach (string[] stringId in listId)
                 {
                     DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
                     DataGridAdding.Items.Add(add);
                 }
-               
 
-                //TEST
                 
             }
-
         }
 
         private void TxtBoxAdding_TextChanged(object sender, TextChangedEventArgs e)
@@ -70,20 +68,20 @@ namespace WpfDataMatching
             FilterTextBoxContent(TxtBoxAdding);
         }
 
-
+       
         /*ПОГРУЗкА*/
         private void GridShipment_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                string shipmentStringId = TxtBoxShipment.Text;
-                List<string[]> listId = ListId(shipmentStringId);
-
-                //поиск и вывод
+                List<string[]> listId = CreateListCountTxtBox(ref DataGridShipment, ref TxtBoxShipment);
+                CompareTwoData(ref DataGridAdding, ref listId);
+                PullOutTitles(ref listId);
+                DataGridShipment.Items.Clear();
                 foreach (string[] stringId in listId)
                 {
                     DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
-                    DataGridAdding.Items.Add(add);
+                    DataGridShipment.Items.Add(add);
                 }
             }
         }
@@ -92,6 +90,7 @@ namespace WpfDataMatching
         {
             FilterTextBoxContent(TxtBoxShipment);
         }
+
 
 
         /*ДРУГОЕ*/
@@ -172,24 +171,101 @@ namespace WpfDataMatching
 
             return matched;
         }
+        //Забирает ИД + названия из ХМЛ
+        private List<string[]> XmlFile()
+        {
+            string path = @"a.xml";
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+
+            List<string[]> idNames = new List<string[]>();
+            foreach (XmlNode xmlNode in xmlDoc.DocumentElement.ChildNodes)
+            {
+                foreach (XmlNode xmlNode1 in xmlNode.ChildNodes)
+                {
+                    if (xmlNode1.FirstChild != null && xmlNode1.LastChild != null)
+                    {
+                        string[] idname = new string[] { xmlNode1.FirstChild.InnerText, xmlNode1.LastChild.InnerText };
+                        idNames.Add(idname);
+                    }
+                }
+            }
+            return idNames;
+        }
+        
+
+        //Вытащить наименования из номенклатуры
+        private void PullOutTitles(ref List<string[]> dataIds)
+        {
+            List<string[]> nomencl = XmlFile();
+            //если не найдено, то удалить строку
+            for (int i = 0; i < dataIds.Count(); i++)
+            {
+                var stringId = dataIds[i];
+                string name = "";
+                foreach (string[] idname in nomencl)
+                {
+                    if (stringId[0] == idname[0])
+                    {
+                        name = idname[1];
+                    }
+                }
+                if (name.Length == 0)
+                {
+                    dataIds.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    dataIds[i][0] = name;
+                }
+            }
+
+        }
+        //Вытащить ИД из номенклатуры
+        private void PullOutID(ref List<string[]> dataNames)
+        {
+            List<string[]> nomencl = XmlFile();
+            //если не найдено, то удалить строку
+            for (int i = 0; i < dataNames.Count(); i++)
+            {
+                var stringName = dataNames[i];
+                string id = "";
+                foreach (string[] idname in nomencl)
+                {
+                    if (stringName[0] == idname[1])
+                    {
+                        id = idname[0];
+                    }
+                }
+                if (id.Length == 0)
+                {
+                    dataNames.RemoveAt(i);
+                }
+                else
+                {
+                    dataNames[i][0] = id;
+                }
+            }
+        }
+
+
         // Подсчет одинаковых ИД
         private void CountID(ref List<string[]> listId)
         {
             for (int i = 0; i < listId.Count; i++)
             {
-                int count = 1;
+                int count = Int32.Parse(listId[i][1]);
                 for (int j = 0; j < i; j++)
                 {
-                    count = listId[i][0] == listId[j][0] ? count + 1 : count;
+                    count = listId[i][0] == listId[j][0] ? count + Int32.Parse(listId[j][1]) : count;
                 }
-                if (count == 1)
+                if (count == Int32.Parse(listId[i][1]))
                 {
                     for (int j = i + 1; j < listId.Count; j++)
                     {
-                        count = listId[i][0] == listId[j][0] ? count + 1 : count;
+                        count = listId[i][0] == listId[j][0] ? count + Int32.Parse(listId[j][1]) : count;
                     }
-                    //string[] helpStringArray = new string[] { listId[i], count.ToString() };
-                    //vs.Add(helpStringArray);
                     listId[i][1] = count.ToString();
                 }
                 else
@@ -213,7 +289,7 @@ namespace WpfDataMatching
                     {
                         enteredId[lenghtArr] = enteredId[lenghtArr].Insert(0, "0");
                     }
-                    string[] helpStringArray = new string[] { enteredId[lenghtArr], " " };
+                    string[] helpStringArray = new string[] { enteredId[lenghtArr], "1" };
                     listId.Add(helpStringArray);
                 }
                 lenghtArr++;
@@ -221,13 +297,88 @@ namespace WpfDataMatching
             return listId;
         }
         
-      
-        
+        //выкинуть сборку списк в отдельный метод
+        private List<string[]> CreateListCountTxtBox(ref DataGrid dataGrid, ref TextBox textBox)
+        {
+            List<string[]> dataGridStrings = new List<string[]>();
+            CreateListCountDG(ref dataGrid, ref dataGridStrings);
+
+            string stringId = textBox.Text;
+            textBox.Text = "";
+            List<string[]> listId = ListId(stringId);
+            listId = listId.Concat(dataGridStrings).ToList();
+            //только правильные ИД + колво
+            CountID(ref listId);
+
+            return listId;
+        }
+
+        //Забираем Наимен и колво из ДГ, меняем наим на ИД
+        private void CreateListCountDG(ref DataGrid dataGrid, ref List<string[]> dataGridStrings)
+        {            
+            //Забираем список из датарид
+            ItemCollection itemCollectionDataGrid = dataGrid.Items;
+            if (itemCollectionDataGrid.Count != 0)
+            {
+                foreach (DataAdd dataAdd in itemCollectionDataGrid)
+                {
+                    string[] dataString = new string[] { dataAdd.Column1, dataAdd.Column2 };
+                    dataGridStrings.Add(dataString);
+                }
+                //Вытащить ИД и добавить их в список
+                PullOutID(ref dataGridStrings);                
+            }
+        }
+
+
+
+        //Сравнение двух таблиц
+        private void CompareTwoData(ref DataGrid anotherGrid, ref List<string[]> listId)
+        {
+            List<string[]> anotherTable = new List<string[]>();
+            CreateListCountDG(ref anotherGrid, ref anotherTable);
+            for (int i = 0; i < listId.Count; i++)
+            {
+                var id = listId[i];
+                for (int j = 0; j < anotherTable.Count; j++)
+                {
+                    var idAnother = anotherTable[j];
+                    /////
+                    if (idAnother[0] == id[0])
+                    {
+                        int dif = Int32.Parse(listId[i][1]) - Int32.Parse(anotherTable[j][1]);
+                        if (dif < 0)
+                        {
+                            anotherTable[j][1] = (-dif).ToString();
+                            listId.RemoveAt(i);
+                            i--;
+                        }
+                        else if (dif > 0)
+                        {
+                            anotherTable.RemoveAt(j);
+                            listId[i][1] = dif.ToString();
+                        }
+                        else
+                        {
+                            anotherTable.RemoveAt(j);
+                            listId.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                }
+            }
+
+            PullOutTitles(ref anotherTable);
+            anotherGrid.Items.Clear();
+            foreach (string[] stringId in anotherTable)
+            {
+                DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
+                anotherGrid.Items.Add(add);
+            }
+        }
+
         /*ДОБАВЛЕНИЕ АВТОМАТИЧЕСКОЕ*/
-
-
     }
-
 
     public class DataAdd
     {
