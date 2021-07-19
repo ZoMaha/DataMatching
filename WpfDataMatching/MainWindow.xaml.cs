@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace WpfDataMatching
     /// </summary>
     public partial class MainWindow : Window
     {
-        int lengthID = 6;
+        int lengthID = 24;
         public MainWindow()
         {
             InitializeComponent();
@@ -35,7 +36,6 @@ namespace WpfDataMatching
         {
             DataGridAdding.Items.Clear();
             DataGridShipment.Items.Clear();
-
         }
 
         /*ПРИЕМ*/
@@ -329,9 +329,7 @@ namespace WpfDataMatching
                 PullOutID(ref dataGridStrings);                
             }
         }
-
-
-
+        
         //Сравнение двух таблиц
         private void CompareTwoData(ref DataGrid anotherGrid, ref List<string[]> listId)
         {
@@ -377,7 +375,6 @@ namespace WpfDataMatching
             }
         }
 
-        /*ДОБАВЛЕНИЕ АВТОМАТИЧЕСКОЕ*/
     }
 
     public class DataAdd
