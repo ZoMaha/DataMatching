@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDataMatching", "WpfDataM
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{669B201C-8A56-4528-9AB0-054BEBEB5784}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Установочные файлы", "Установочные файлы", "{611E17EB-0494-4A17-9527-FF28BC577582}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\Release\setup.exe = Setup\Release\setup.exe
+		Setup\Release\Setup.msi = Setup\Release\Setup.msi
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
