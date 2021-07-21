@@ -64,11 +64,12 @@ namespace WpfDataMatching
             if (e.Key == Key.Enter)
             {
                 //Список из наименований и колва
-                List<string[]> listId = CreateListCountTxtBox(ref DGAdding, ref TxtBoxAdding);
+                List<string[]> listId = CreateListCountTxtBox(ref DGAdding, ref TxtBoxAdding, ref DGShipment);
                 /*
                  * Здесь надо вытащить данные другой таблицы и сравнить с этой
                  */
-                CompareTwoData(ref DGShipment, ref listId);
+
+                
 
                 //по итогу получили список listID с ИД наименований и колвом
                 PullOutTitles(ref listId);
@@ -96,8 +97,8 @@ namespace WpfDataMatching
         {
             if (e.Key == Key.Enter)
             {
-                List<string[]> listId = CreateListCountTxtBox(ref DGShipment, ref TxtBoxShipment);
-                CompareTwoData(ref DGAdding, ref listId);
+                List<string[]> listId = CreateListCountTxtBox(ref DGShipment, ref TxtBoxShipment, ref DGAdding);
+                //CompareTwoData(ref DGAdding, ref listId);
                 PullOutTitles(ref listId);
                 DGShipment.ItemsSource = null;
                 List<DataAdd> listData = new List<DataAdd>();
@@ -321,17 +322,25 @@ namespace WpfDataMatching
         }
         
         //выкинуть сборку списк в отдельный метод
-        private List<string[]> CreateListCountTxtBox(ref DataGrid dataGrid, ref TextBox textBox)
+        private List<string[]> CreateListCountTxtBox(ref DataGrid dataGrid, ref TextBox textBox, ref DataGrid dataGridAnother)
         {
+            //есть в этом дг
             List<string[]> dataGridStrings = new List<string[]>();
             CreateListCountDG(ref dataGrid, ref dataGridStrings);
+            CountID(ref dataGridStrings);
 
+
+            //введено в текущий текстбокс
             string stringId = textBox.Text;
             textBox.Text = "";
             List<string[]> listId = ListId(stringId);
-            listId = listId.Concat(dataGridStrings).ToList();
-            //только правильные ИД + колво
             CountID(ref listId);
+            CompareTwoData(ref dataGridAnother, ref listId);
+
+            listId = listId.Concat(dataGridStrings).ToList();
+
+            //только правильные ИД + колво
+            
 
             return listId;
         }
@@ -371,8 +380,6 @@ namespace WpfDataMatching
                         if (dif < 0)
                         {
                             anotherTable[j][1] = (-dif).ToString();
-                            listId.RemoveAt(i);
-                            i--;
                         }
                         else if (dif > 0)
                         {
@@ -382,8 +389,6 @@ namespace WpfDataMatching
                         else
                         {
                             anotherTable.RemoveAt(j);
-                            listId.RemoveAt(i);
-                            i--;
                         }
                     }
                 }
