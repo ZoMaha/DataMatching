@@ -26,7 +26,7 @@ namespace WpfDataMatching
     public partial class Nomenclature : Window
     {
         int lengthID = 24;
-        string path = @"nom.xml";
+        string path = "C:\\Users\\Public\\Documents\\DataMatching\\nom.xml";
 
 
         public Nomenclature()
