@@ -51,6 +51,7 @@ namespace WpfDataMatching
         {
             //сохранить
             EditXmlFile(DataFromDataGrid());
+            
             List<string[]> listId = DataXmlFile();
             List<DataAdd> listData = new List<DataAdd>();
             foreach (string[] stringId in listId)
@@ -157,8 +158,9 @@ namespace WpfDataMatching
                 ElementFieldId1.InnerText = str[1];
                 ElementRow.AppendChild(ElementFieldId1);
 
-                XmlDoc.Save(path);
+                //XmlDoc.Save(path);
             }
+            XmlDoc.Save(path);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -185,32 +187,55 @@ namespace WpfDataMatching
         {
             ItemCollection itemCollectionDataGrid = DGNom.Items;
 
-            DataAdd da = (DataAdd)itemCollectionDataGrid[0];
-
             List<string[]> dataGridStrings = new List<string[]>();
+
             if (itemCollectionDataGrid.Count != 0)
             {
                 string lastId = "";
-                for (int i = 0; i < itemCollectionDataGrid.Count; i++)
-                {                    
+                
+                for (int i = 0; i < itemCollectionDataGrid.Count - 1; i++)
+                {
+                    int k = 1;
                     if (itemCollectionDataGrid[i] is DataAdd)
                     {      
                         DataAdd dataAdd = (DataAdd)itemCollectionDataGrid[i];
-                        if (dataAdd.Column2 != null)
+                        if (dataAdd.Column2 != "")
                         {
-                            if (dataAdd.Column1 == "")
+                            if (dataAdd.Column1 == "" || dataAdd.Column1 == null)
                             {
                                 dataAdd.Column1 = AddID(lastId);
                             }
                             string[] dataString = new string[] { dataAdd.Column1, dataAdd.Column2 };
                             dataGridStrings.Add(dataString);
+                            lastId = dataAdd.Column1;
                         }
-                        lastId = dataAdd.Column1;
+                        
                     }
                     
                 }
             }
+            //проверка на одинаковые наименования
+            if (dataGridStrings.Count != 0)
+            {
+
+                for (int i = 0; i < dataGridStrings.Count - 1; i++)
+                {
+                    int count = 0;
+                    for (int j = 0; j < dataGridStrings.Count; j++)
+                    {
+                        bool help = dataGridStrings[i][1] == dataGridStrings[j][1];
+                        count = help ? count + 1 : count;
+                    }
+                    if (count != 1)
+                    {
+                        dataGridStrings.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
             return dataGridStrings;
         }
+
+
     }
 }
