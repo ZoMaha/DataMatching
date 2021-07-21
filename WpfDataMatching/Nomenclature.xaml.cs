@@ -26,8 +26,7 @@ namespace WpfDataMatching
     public partial class Nomenclature : Window
     {
         int lengthID = 24;
-        //string path = @"a.xml";
-        string path = @"bbbb.xml";
+        string path = @"nom.xml";
 
 
         public Nomenclature()
@@ -68,6 +67,10 @@ namespace WpfDataMatching
 
         private string AddID(string lastId)
         {
+            if (lastId == "")
+            {
+                lastId = "0";
+            }
             string id = "";
             int dec = Convert.ToInt32(lastId, 16);
             dec++;

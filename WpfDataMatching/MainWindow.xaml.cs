@@ -26,28 +26,24 @@ namespace WpfDataMatching
     public partial class MainWindow : Window
     {
         int lengthID = 24;
-        //string path = @"a.xml";
-        string path = @"bbbb.xml";
+        string path = @"nom.xml";
         public MainWindow()
         {
             InitializeComponent();
             TxtBoxShipment.CharacterCasing = CharacterCasing.Upper;
             TxtBoxAdding.CharacterCasing = CharacterCasing.Upper;
             
-            if (File.Exists(path))
-            {
-                //проверить на наличие элементов
-                if (DataXmlFile().Count == 0)
-                {
-                    //заполнить
-                    MessageBox.Show("Отсутствуют данные в файле номенклатуры. Заполните файл.");
-                    var nomenclature = new Nomenclature();
-                    nomenclature.Show();
-                }
-            }
-            else
+            if (!File.Exists(path))
             {
                 AddXmlFile();
+            }
+            //проверить на наличие элементов
+            if (DataXmlFile().Count == 0)
+            {
+                //заполнить
+                MessageBox.Show("Отсутствуют данные в файле номенклатуры. Заполните файл.");
+                var nomenclature = new Nomenclature();
+                nomenclature.Show();
             }
         }
 

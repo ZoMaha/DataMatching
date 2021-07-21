@@ -15,26 +15,50 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_68DEE649F3054AE5BE484E5FBF0E2433"
+        "MsmKey" = "8:_30B2221F87D54DB29BE98F1E9EF9C95E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8E37EEEB7C6B4FC0B18E3A80B58C9F7C"
+        "MsmKey" = "8:_418B21D257E9430097D57AD0E346CBA4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D149E74F86684305A6682531B24B0A4A"
+        "MsmKey" = "8:_86C83C2DE1194ED98DE3359A35649FAC"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_98560AF981E94F87B31971280D97327A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ADEC0E9715EECF4DC57538FE659DB0AE"
+        "OwnerKey" = "8:_98560AF981E94F87B31971280D97327A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_68DEE649F3054AE5BE484E5FBF0E2433"
+        "OwnerKey" = "8:_418B21D257E9430097D57AD0E346CBA4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_98560AF981E94F87B31971280D97327A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_ADEC0E9715EECF4DC57538FE659DB0AE"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -86,6 +110,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -116,14 +148,34 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_68DEE649F3054AE5BE484E5FBF0E2433"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_30B2221F87D54DB29BE98F1E9EF9C95E"
+            {
+            "SourcePath" = "8:..\\WpfDataMatching\\bin\\Release\\WpfDataMatching.exe.config"
+            "TargetName" = "8:WpfDataMatching.exe.config"
+            "Tag" = "8:"
+            "Folder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_418B21D257E9430097D57AD0E346CBA4"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:WpfDataMatching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_68DEE649F3054AE5BE484E5FBF0E2433"
+                    "_418B21D257E9430097D57AD0E346CBA4"
                     {
                     "Name" = "8:WpfDataMatching.exe"
                     "Attributes" = "3:512"
@@ -147,27 +199,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E37EEEB7C6B4FC0B18E3A80B58C9F7C"
-            {
-            "SourcePath" = "8:..\\WpfDataMatching\\bin\\Release\\WpfDataMatching.exe.config"
-            "TargetName" = "8:WpfDataMatching.exe.config"
-            "Tag" = "8:"
-            "Folder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D149E74F86684305A6682531B24B0A4A"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_86C83C2DE1194ED98DE3359A35649FAC"
             {
             "SourcePath" = "8:..\\WpfDataMatching\\bin\\Release\\WpfDataMatching.pdb"
             "TargetName" = "8:WpfDataMatching.pdb"
@@ -185,6 +217,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ADEC0E9715EECF4DC57538FE659DB0AE"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_ADEC0E9715EECF4DC57538FE659DB0AE"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -243,15 +306,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DataMatchingApp"
-        "ProductCode" = "8:{CE2AAB51-8C19-418F-A8F8-5D1AA5318456}"
-        "PackageCode" = "8:{40FB8013-53BC-4DF8-9660-AA801F745418}"
+        "ProductCode" = "8:{04CC1245-7AA9-4D1F-970D-1354A3CD3968}"
+        "PackageCode" = "8:{04DA476F-D684-4480-A650-77A318156148}"
         "UpgradeCode" = "8:{BE419247-607F-453C-B950-8CE77CC9B443}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.1"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:App for woking with nomenclature"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -364,29 +427,29 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4FC86F0D2464488DB95140ED03411C94"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1FE70B0AE3F24F42B61F3FCF67AB7903"
             {
-            "Name" = "8:Управление приемом и отгрузкой.exe"
+            "Name" = "8:Shortcut to WpfDataMatching.exe"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_68DEE649F3054AE5BE484E5FBF0E2433"
+            "Target" = "8:_418B21D257E9430097D57AD0E346CBA4"
             "Folder" = "8:_BF246D2679F941BFB7ED8E89F4EB0015"
             "WorkingFolder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DE2B385D8B4446949107E03BBEC2618E"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_49AF01D243844524AFBB79E814D4C1C3"
             {
-            "Name" = "8:DataMatching.exe"
+            "Name" = "8:Shortcut to WpfDataMatching.exe (2)"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_68DEE649F3054AE5BE484E5FBF0E2433"
+            "Target" = "8:_418B21D257E9430097D57AD0E346CBA4"
             "Folder" = "8:_43EB0B47593B42AF94392F10DD2CD7EB"
             "WorkingFolder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
             "Icon" = "8:"
@@ -791,6 +854,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_98560AF981E94F87B31971280D97327A"
+            {
+            "SourcePath" = "8:..\\WpfDataMatching\\obj\\Release\\WpfDataMatching.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8BDA034B7C7C43AD8A9733330385F1E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{181A77ED-B629-4791-B085-1B3C6885EDB4}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
         }
     }
 }
