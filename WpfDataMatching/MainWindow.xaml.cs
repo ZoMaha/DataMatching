@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,41 +26,66 @@ namespace WpfDataMatching
     public partial class MainWindow : Window
     {
         int lengthID = 24;
+        //string path = @"a.xml";
+        string path = @"bbbb.xml";
         public MainWindow()
         {
             InitializeComponent();
             TxtBoxShipment.CharacterCasing = CharacterCasing.Upper;
             TxtBoxAdding.CharacterCasing = CharacterCasing.Upper;
+            
+            if (File.Exists(path))
+            {
+                //проверить на наличие элементов
+                if (DataXmlFile().Count == 0)
+                {
+                    //заполнить
+                    MessageBox.Show("Отсутствуют данные в файле номенклатуры. Заполните файл.");
+                    var nomenclature = new Nomenclature();
+                    nomenclature.Show();
+                }
+            }
+            else
+            {
+                AddXmlFile();
+            }
         }
 
-        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        void BtnClear_Click(object sender, RoutedEventArgs e)
         {
-            DataGridAdding.Items.Clear();
-            DataGridShipment.Items.Clear();
+            DGAdding.ItemsSource = null;
+            DGShipment.ItemsSource = null;
         }
 
+        private void BtnNom_Click(object sender, RoutedEventArgs e)
+        {
+            var Nomenclature = new Nomenclature();
+            Nomenclature.Show();
+        }
         /*ПРИЕМ*/
-        private void GridAdding_KeyUp(object sender, KeyEventArgs e)
+        private void DGAdding_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 //Список из наименований и колва
-                List<string[]> listId = CreateListCountTxtBox(ref DataGridAdding, ref TxtBoxAdding);
+                List<string[]> listId = CreateListCountTxtBox(ref DGAdding, ref TxtBoxAdding);
                 /*
                  * Здесь надо вытащить данные другой таблицы и сравнить с этой
                  */
-                CompareTwoData(ref DataGridShipment, ref listId);
+                CompareTwoData(ref DGShipment, ref listId);
 
                 //по итогу получили список listID с ИД наименований и колвом
                 PullOutTitles(ref listId);
-                DataGridAdding.Items.Clear();
+                DGAdding.ItemsSource = null;          
+                List<DataAdd> listData = new List<DataAdd>();
                 foreach (string[] stringId in listId)
                 {
                     DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
-                    DataGridAdding.Items.Add(add);
+                    listData.Add(add);
                 }
+                DGAdding.ItemsSource = listData;
 
-                
+
             }
         }
 
@@ -70,19 +96,21 @@ namespace WpfDataMatching
 
        
         /*ПОГРУЗкА*/
-        private void GridShipment_KeyUp(object sender, KeyEventArgs e)
+        private void DGShipment_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                List<string[]> listId = CreateListCountTxtBox(ref DataGridShipment, ref TxtBoxShipment);
-                CompareTwoData(ref DataGridAdding, ref listId);
+                List<string[]> listId = CreateListCountTxtBox(ref DGShipment, ref TxtBoxShipment);
+                CompareTwoData(ref DGAdding, ref listId);
                 PullOutTitles(ref listId);
-                DataGridShipment.Items.Clear();
+                DGShipment.ItemsSource = null;
+                List<DataAdd> listData = new List<DataAdd>();
                 foreach (string[] stringId in listId)
                 {
                     DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
-                    DataGridShipment.Items.Add(add);
+                    listData.Add(add);
                 }
+                DGShipment.ItemsSource = listData;
             }
         }
 
@@ -172,9 +200,8 @@ namespace WpfDataMatching
             return matched;
         }
         //Забирает ИД + названия из ХМЛ
-        private List<string[]> XmlFile()
+        private List<string[]> DataXmlFile()
         {
-            string path = @"a.xml";
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
 
@@ -197,7 +224,7 @@ namespace WpfDataMatching
         //Вытащить наименования из номенклатуры
         private void PullOutTitles(ref List<string[]> dataIds)
         {
-            List<string[]> nomencl = XmlFile();
+            List<string[]> nomencl = DataXmlFile();
             //если не найдено, то удалить строку
             for (int i = 0; i < dataIds.Count(); i++)
             {
@@ -225,7 +252,7 @@ namespace WpfDataMatching
         //Вытащить ИД из номенклатуры
         private void PullOutID(ref List<string[]> dataNames)
         {
-            List<string[]> nomencl = XmlFile();
+            List<string[]> nomencl = DataXmlFile();
             //если не найдено, то удалить строку
             for (int i = 0; i < dataNames.Count(); i++)
             {
@@ -367,14 +394,65 @@ namespace WpfDataMatching
             }
 
             PullOutTitles(ref anotherTable);
-            anotherGrid.Items.Clear();
+            anotherGrid.ItemsSource = null;
+            List<DataAdd> listData = new List<DataAdd>();
             foreach (string[] stringId in anotherTable)
             {
                 DataAdd add = new DataAdd { Column1 = stringId[0], Column2 = stringId[1] };
-                anotherGrid.Items.Add(add);
+                listData.Add(add);
             }
+            anotherGrid.ItemsSource = listData;
         }
 
+
+        //Создание пустого файла
+        private void AddXmlFile()
+        {
+            
+            XmlDocument XmlDoc = new XmlDocument();
+            XmlDeclaration XmlDec = XmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            XmlDoc.AppendChild(XmlDec);
+
+            XmlElement ElementDatabase = XmlDoc.CreateElement("database");
+            ElementDatabase.SetAttribute("name", "Nomenclature");
+            XmlDoc.AppendChild(ElementDatabase);
+
+            XmlElement ElementTable_Structure = XmlDoc.CreateElement("table_structure");
+            ElementTable_Structure.SetAttribute("name", "titles");
+            ElementDatabase.AppendChild(ElementTable_Structure);
+
+            XmlElement ElementField0 = XmlDoc.CreateElement("field");
+            ElementField0.SetAttribute("Field", "id");
+            ElementField0.SetAttribute("type", "string");
+            ElementTable_Structure.AppendChild(ElementField0);
+
+            XmlElement ElementField1 = XmlDoc.CreateElement("field");
+            ElementField1.SetAttribute("Field", "title");
+            ElementField1.SetAttribute("type", "string");
+            ElementTable_Structure.AppendChild(ElementField1);
+
+            XmlElement ElementTable_Data = XmlDoc.CreateElement("table_data");
+            ElementTable_Data.SetAttribute("name", "titles");
+            ElementDatabase.AppendChild(ElementTable_Data);
+
+            //добавление
+            
+            //XmlElement ElementFieldId = XmlDoc.CreateElement("field");
+            //ElementFieldId.SetAttribute("name", "id");
+            //ElementFieldId.InnerText = "123";
+            //ElementRow.AppendChild(ElementFieldId);
+
+            //XmlElement ElementFieldId1 = XmlDoc.CreateElement("field");
+            //ElementFieldId1.SetAttribute("name", "title");
+            //ElementFieldId1.InnerText = "123";
+            //ElementRow.AppendChild(ElementFieldId1);
+
+            XmlDoc.Save(path);
+        }
+
+       
+
+        
     }
 
     public class DataAdd
@@ -388,4 +466,7 @@ namespace WpfDataMatching
             get; set;
         }
     }
+
+
+
 }

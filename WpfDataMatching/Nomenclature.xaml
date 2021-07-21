@@ -1,0 +1,27 @@
+﻿<Window x:Class="WpfDataMatching.Nomenclature"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfDataMatching"
+        mc:Ignorable="d"
+        Title="Nomenclature" Height="450" Width="800" Closing="Window_Closing">
+    <Grid>
+        <Label x:Name="LblData" Content="Данные номенклатуры" Margin="+25,+10,0,0"
+               HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Times New Roman"/>
+        <DataGrid x:Name="DGNom" Margin="+25,41,+25,+60"
+                  FontSize="14" FontFamily="Times New Roman" SelectionUnit="CellOrRowHeader" 
+                   AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Column1}" Header="Идентификатор" Width="4*" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column2}" Header="Наименование" Width="6*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="BtnBack" Margin="+25,0,0,+10" Width="140" Height="27" Content="Отменить" 
+            HorizontalAlignment="Left"  VerticalAlignment="Bottom" 
+            Click="BtnBack_Click" FontSize="16" FontFamily="Times New Roman"/>
+        <Button x:Name="BtnSave" Margin="0,0,+25,+10" Width="140" Height="27" Content="Сохранить" 
+            HorizontalAlignment="Right"  VerticalAlignment="Bottom" 
+            Click="BtnSave_Click" FontSize="16" FontFamily="Times New Roman"/>
+    </Grid>
+</Window>
