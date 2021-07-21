@@ -338,9 +338,9 @@ namespace WpfDataMatching
             CompareTwoData(ref dataGridAnother, ref listId);
 
             listId = listId.Concat(dataGridStrings).ToList();
-
+            CountID(ref listId);
             //только правильные ИД + колво
-            
+
 
             return listId;
         }
@@ -381,13 +381,8 @@ namespace WpfDataMatching
                         {
                             anotherTable[j][1] = (-dif).ToString();
                         }
-                        else if (dif > 0)
-                        {
-                            anotherTable.RemoveAt(j);
-                            listId[i][1] = dif.ToString();
-                        }
                         else
-                        {
+                        {               
                             anotherTable.RemoveAt(j);
                         }
                     }
