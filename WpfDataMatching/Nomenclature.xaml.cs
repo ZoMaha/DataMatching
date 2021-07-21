@@ -27,7 +27,7 @@ namespace WpfDataMatching
     {
         int lengthID = 24;
         string path = "C:\\Users\\Public\\Documents\\DataMatching\\nom.xml";
-
+        bool checkEdit;
 
         public Nomenclature()
         {
@@ -40,10 +40,12 @@ namespace WpfDataMatching
                 listData.Add(add);
             }
             DGNom.ItemsSource = listData;
+            checkEdit = false;
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
+            checkEdit = false;
             this.Close();
         }
 
@@ -61,6 +63,7 @@ namespace WpfDataMatching
             }
             DGNom.ItemsSource = null;
             DGNom.ItemsSource = listData;
+            checkEdit = false;
         }
 
 
@@ -165,22 +168,25 @@ namespace WpfDataMatching
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string message = "Сохранить данные в файл нуменклатуры?";
-            string caption = "Сохранение изменений";
-            MessageBoxButton btn = MessageBoxButton.YesNo;
-            MessageBoxResult result = MessageBox.Show(message, caption, btn);
-            switch (result)
+            if (checkEdit)
             {
-                case MessageBoxResult.No:
-                    {
-                        break;
-                    }
-                case MessageBoxResult.Yes:
-                    {                        
-                        EditXmlFile(DataFromDataGrid());
-                        break;
-                    }
-            }            
+                string message = "Сохранить данные в файл номенклатуры?";
+                string caption = "Сохранение изменений";
+                MessageBoxButton btn = MessageBoxButton.YesNo;
+                MessageBoxResult result = MessageBox.Show(message, caption, btn);
+                switch (result)
+                {
+                    case MessageBoxResult.No:
+                        {
+                            break;
+                        }
+                    case MessageBoxResult.Yes:
+                        {
+                            EditXmlFile(DataFromDataGrid());
+                            break;
+                        }
+                }
+            }          
         }
         //Данные из датагрид
         private List<string[]> DataFromDataGrid()
@@ -199,7 +205,7 @@ namespace WpfDataMatching
                     if (itemCollectionDataGrid[i] is DataAdd)
                     {      
                         DataAdd dataAdd = (DataAdd)itemCollectionDataGrid[i];
-                        if (dataAdd.Column2 != "")
+                        if (dataAdd.Column2 != "" && dataAdd.Column2 != null)
                         {
                             if (dataAdd.Column1 == "" || dataAdd.Column1 == null)
                             {
@@ -236,6 +242,12 @@ namespace WpfDataMatching
             return dataGridStrings;
         }
 
-
+        private void DGNom_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                checkEdit = true;
+            }
+        }
     }
 }

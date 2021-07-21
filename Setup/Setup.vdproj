@@ -62,6 +62,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -148,7 +156,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:WpfDataMatching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:WpfDataMatching, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A336556909B549498157767BF5011F8D"
@@ -263,15 +271,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DataMatchingApp"
-        "ProductCode" = "8:{843EC2C8-EC6C-4E9D-9A73-DE4F66F49085}"
-        "PackageCode" = "8:{60021FBE-4D96-48B2-8169-22354060A1CB}"
+        "ProductCode" = "8:{76ECA903-00AA-47A3-91EC-02972002AFE5}"
+        "PackageCode" = "8:{943FBEB5-5D2A-4840-91B8-492FE89A5382}"
         "UpgradeCode" = "8:{BE419247-607F-453C-B950-8CE77CC9B443}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.4"
+        "ProductVersion" = "8:1.0.5"
         "Manufacturer" = "8:App for woking with nomenclature"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

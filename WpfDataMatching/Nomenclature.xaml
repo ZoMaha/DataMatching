@@ -11,7 +11,7 @@
                HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Times New Roman"/>
         <DataGrid x:Name="DGNom" Margin="+25,41,+25,+60"
                   FontSize="14" FontFamily="Times New Roman" SelectionUnit="CellOrRowHeader" 
-                   AutoGenerateColumns="False">
+                   AutoGenerateColumns="False" CellEditEnding="DGNom_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Column1}" Header="Идентификатор" Width="4*" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Column2}" Header="Наименование" Width="6*"/>
